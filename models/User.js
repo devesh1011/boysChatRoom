@@ -4,11 +4,14 @@ const Schema = mongoose.Schema;
 const userSchema = new Schema({
     username: {
         type: String,
-        default: "ABC"
+        unique: [true, "Username already exists. Try Login Instead"]
+    },
+    email: {
+        type: String,
+        unique: true
     },
     password: {
-        type: String,
-        default: "XYC"
+        type: String
     },
     googleId: {
         type: String
