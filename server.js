@@ -2,20 +2,26 @@ const express = require('express');
 const connectDB = require("./config/db");
 require("./config/auth");
 const userRoute = require("./routes/user.routes");
-const bodyParse = require("body-parser");
 const passport = require("passport");
-const bodyParser = require('body-parser');
+const session = require("express-session");
+const flash = require("express-flash");
 
 const app = express();
 
-// app.use(express.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+const sessionOptions = {
+    secret: 'aksjdadfaidl',
+    resave: true,
+    saveUinitialized: true,
+    cookie: { secure: true }
+}
 
-app.set("view-engine", "ejs");
+app.use(session({ sessionOptions }));
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(express.json());
 
 app.get('/', (req, res) => {
-    res.render("index.ejs");
+    res.send("Welcome to the boys chat room")
 });
 
 app.use('/users', userRoute);
