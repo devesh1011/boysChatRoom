@@ -1,21 +1,16 @@
 const express = require('express');
 const connectDB = require("./config/db");
-require("./config/auth");
+require("./config/passport");
 const userRoute = require("./routes/user.routes");
-const passport = require("passport");
+const passport = require("./config/passport");
 const session = require("express-session");
 const flash = require("express-flash");
 
 const app = express();
 
-const sessionOptions = {
-    secret: 'aksjdadfaidl',
-    resave: true,
-    saveUinitialized: true,
-    cookie: { secure: true }
-}
+const sessionOptions = { secret: "ashkfaskljdfas", resave: false, saveUninitialized: true }
 
-app.use(session({ sessionOptions }));
+app.use(session(sessionOptions));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.json());
@@ -26,26 +21,7 @@ app.get('/', (req, res) => {
 
 app.use('/users', userRoute);
 
-// app.get('/auth/google', passport.authenticate('google', ({ scope: ['email', 'profile'] }))
-// )
-
-// app.get('/google/callback', passport.authenticate('google', {
-//     successRedirect: '/protected',
-//     failureRedirect: '/auth/failure'
-// })
-// );
-
-// app.get('/auth/failure', (req, res) => {
-//     // res.send('Something went wrong');
-//     res.redirect('/');
-// })
-
-// app.get('/protected', (req, res) => {
-//     res.send("Hello");
-// });
-
 app.listen(5000, () => {
-
     connectDB();
     console.log("App is listening to port 5000");
 })
