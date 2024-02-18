@@ -19,7 +19,7 @@ app.get('/', (req, res) => {
     res.send("Welcome to the boys chat room")
 });
 
-app.use('/users', userRoute);
+app.use('/auth', userRoute);
 
 app.listen(5000, () => {
     connectDB();
