@@ -5,6 +5,7 @@ const userRoute = require("./routes/user.routes");
 const passport = require("./config/passport");
 const session = require("express-session");
 const flash = require("express-flash");
+const path = require("path");
 
 const app = express();
 
@@ -14,9 +15,12 @@ app.use(session(sessionOptions));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.json());
+app.use(express.static("public"));
+
+app.set("view engine", "ejs")
 
 app.get('/', (req, res) => {
-    res.send("Welcome to the boys chat room")
+    res.sendFile(path.join(__dirname, "index.html"))
 });
 
 app.use('/auth', userRoute);
