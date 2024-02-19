@@ -18,7 +18,7 @@ const signup = async (req, res) => {
 }
 
 const login = async (req, res) => {
-
+    console.log("User logged in");
 }
 
 module.exports = {

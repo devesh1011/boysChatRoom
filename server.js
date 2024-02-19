@@ -17,13 +17,18 @@ app.use(passport.session());
 app.use(express.json());
 app.use(express.static("public"));
 
+app.use('/auth', userRoute);
+
 app.set("view engine", "ejs")
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, "index.html"))
 });
 
-app.use('/auth', userRoute);
+app.get('/protected', (req, res) => {
+    res.send("Welcome to the boys chat room page");
+});
+
 
 app.listen(5000, () => {
     connectDB();
