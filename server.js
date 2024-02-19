@@ -26,9 +26,12 @@ app.get('/', (req, res) => {
 });
 
 app.get('/protected', (req, res) => {
-    res.send("Welcome to the boys chat room page");
+    if (req.isAuthenticated()) {
+        res.send("Welcome to the boys chat room page");
+    } else {
+        res.redirect('/')
+    }
 });
-
 
 app.listen(5000, () => {
     connectDB();
