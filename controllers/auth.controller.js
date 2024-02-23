@@ -12,7 +12,7 @@ const login = async (req, res) => {
       return res.status(401).json({ success: false, msg: "User not found" });
     }
 
-    const isValid = await validPassword(password, user.hash);
+    const isValid = await validPassword(password, user.password);
 
     if (!isValid) {
       return res.status(401).json({ success: false, msg: "Invalid password" });
@@ -31,7 +31,7 @@ const register = async (req, res) => {
   try {
     const { username, password } = req.body;
 
-    const user = await User.find({ username });
+    const user = await User.findOne({ username });
 
     if (user) {
       return res.status(201).json({
@@ -42,7 +42,7 @@ const register = async (req, res) => {
 
     const hashedPassword = await genPassword(password);
 
-    const newUser = User.create({
+    const newUser = await User.create({
       username,
       password: hashedPassword,
     });
@@ -61,7 +61,10 @@ const logout = (req, res) => {
     return res
       .status(200)
       .json({ success: true, msg: "You have been logged out" });
-  } catch (error) {}
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, error: "Internal Server Error" });
+  }
 };
 
 module.exports = {
